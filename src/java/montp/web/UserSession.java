@@ -20,17 +20,18 @@ public class UserSession implements Serializable {
     @Produces
     @Named
     private User user;
-    
+
 
     @PostConstruct
     public void init() {
 //        user = userService.getFromUsername(FacesTools.getRequest().getUserPrincipal().getName());
 //        user = userService.getFromUsername("admin"); // désactiver la sécurité dans web.xml pour l'autologin
     }
-    
+
     public void logout() {
         FacesTools.getRequest().getSession().invalidate();
         FacesTools.redirect("/");
     }
+
 
 }

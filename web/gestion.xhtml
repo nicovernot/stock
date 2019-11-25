@@ -42,12 +42,16 @@
                     <p:outputLabel for="username" value="Mail:"/>
                     <p:inputText id="username"
                                  size='30'
-                                 value='#{user.userName}'
+                                 value='#{gestionUsersView.user.userName}'
                                  required="true"
                                  requiredMessage="Le Mail est obligatoire"/>
-                    <p:outputLabel for="isactive" value="Type:"/>
+                    <h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+                        <h:outputLabel for="pwd1" value="Password 1: *" />
+                        <p:password id="pwd1" value="#{gestionUsersView.user.password}"  label="Password 1" required="true" />
+
+                    </h:panelGrid>
                     <p:inputSwitch  id="isactive"
-                                 value='#{user.active}'/>
+                                 value='#{gestionUsersView.user.active}'/>
 
                     <p:spacer/>
 
@@ -63,10 +67,10 @@
         <p:dataTable    id="tableJoueurs"
                         widgetVar="tableJoueurs"
                         value="#{gestionUsersView.restyp}" var="rt" type="ordered">
-            <p:column headerText="Id">
+            <p:column headerText="Action">
                 <p:commandButton icon="fa fa-trash"
                                  title="Supprimer"
-                                 rendered="#{gestionUsersView.user.active}"
+                                 rendered="#{rt.active}"
                                  actionListener="#{gestionUsersView.delete(rt)}"
                                  update="tableJoueurs"
                                  process="@this">
@@ -76,7 +80,7 @@
                 </p:commandButton>
                 <p:commandButton icon="fa fa-edit"
                                  title="Modifier"
-                                 actionListener="#{gestionUsersView.update(rt)}"
+                                 actionListener="#{gestionUsersView.setUser(rt)}"
                                  oncomplete="PF('dialogAjouterJoueur').show()"
                                  update="dialogAjouterJoueur"/>
             </p:column>

@@ -1,20 +1,27 @@
 package montp.data.model.security;
 
+
 import montp.data.model.GenericEntity;
+import montp.data.model.Panier;
 
 import javax.persistence.*;
 import java.util.List;
+
+
 
 @Entity
 @Table(name = "SECURITY_USER")
 public class User extends GenericEntity {
 
+    @Column(nullable = false)
+    private Boolean active;
     @Column(nullable = false, unique = true, length = 50)
-    private String userName;
+     private String userName;
     @Column(columnDefinition = "TEXT")
     private String password;
     @Column(columnDefinition = "TEXT")
     private String oldPassword;
+
 
     @ManyToMany
     @JoinTable(name = "SECURITY_USER_GROUP",
@@ -23,13 +30,32 @@ public class User extends GenericEntity {
             inverseJoinColumns = @JoinColumn(name = "groupname",
                     referencedColumnName = "groupname"))
     private List<Group> groups;
+    @OneToMany
+    private List<Panier> panierList;
 
     public User() {
     }
 
-    public User(String userName, String password) {
+    public List<Panier> getPanierList() {
+        return panierList;
+    }
+
+    public void setPanierList(List<Panier> panierList) {
+        this.panierList = panierList;
+    }
+
+    public User(String userName, String password, Boolean active) {
         this.userName = userName;
         this.password = password;
+        this.active = active;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getUserName() {

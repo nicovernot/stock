@@ -1,4 +1,4 @@
-package tp.javaee.stockmarket;
+package montp.stockmarket;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;

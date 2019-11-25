@@ -1,5 +1,5 @@
 plugins {
-    id 'war'  
+    id 'war'
 }
 
 repositories {
@@ -9,7 +9,7 @@ repositories {
 dependencies {
     providedCompile 'javax.enterprise:cdi-api:2.0'
 	providedCompile 'javax.inject:javax.inject:1'
-	providedCompile 'javax.faces:javax.faces-api:2.3'
+    providedCompile 'javax.faces:javax.faces-api:2.3'
 	providedCompile 'com.sun.mail:javax.mail:1.6.2'
 	providedCompile 'javax.persistence:javax.persistence-api:2.2'
 	providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
@@ -19,6 +19,8 @@ dependencies {
 	providedCompile 'javax.ws.rs:javax.ws.rs-api:2.1.1'
 	implementation 'org.primefaces:primefaces:7.0'
 	implementation 'com.itextpdf:itextpdf:5.5.13.1'
+
+ 
 }
 
 war {
@@ -36,7 +38,7 @@ sourceSets {
     }
 }
 
-ext.setProperty('payaraHome', "/d:/Henri/payara5");
+ext.setProperty('payaraHome', "/home/nico/Documents/payara5");
 ext.setProperty('asadminDir', "${payaraHome}${File.separator}bin");
 ext.setProperty('asadminFile', System.properties['os.name'].toLowerCase().contains('windows')? ['cmd', '/c', 'asadmin.bat']: './asadmin')
 
@@ -50,21 +52,21 @@ task explodedWar(type: Sync) {
 task startServer(type:Exec) {
     workingDir asadminDir;
     commandLine asadminFile;
- 
+
     args "start-domain"
 }
- 
+
 task stopServer(type:Exec) {
     workingDir asadminDir;
     commandLine asadminFile;
- 
+
     args "stop-domain"
 }
- 
+
 task redeploy(dependsOn: 'war', type:Exec) {
     workingDir asadminDir;
     commandLine asadminFile;
- 
+
     args "deploy", "--force=true", "--contextroot=/", "${war.archivePath}";
 }
 

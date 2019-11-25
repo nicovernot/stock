@@ -1,4 +1,4 @@
-package tp.javaee.stockmarket;
+package montp.stockmarket;
 
 import java.io.Serializable;
 
@@ -7,10 +7,10 @@ import java.io.Serializable;
  * company
  */
 public class Company implements Serializable {
-    
+
     private String symbol;
     private String name;
-    
+
     public Company() { }
 
     public Company(String name, String symbol) {
@@ -61,6 +61,6 @@ public class Company implements Serializable {
         return name;
     }
 
-    
+
 
 }

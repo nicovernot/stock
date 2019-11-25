@@ -1,4 +1,4 @@
-package tp.javaee.stockmarket;
+package montp.stockmarket;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Hold the quoted value of a company.
  */
 public class Quote implements Serializable {
-    
+
     private Company company;
     private Double quote;
 
@@ -17,7 +17,7 @@ public class Quote implements Serializable {
         this.company = company;
         this.quote = quote;
     }
-    
+
     public Company getCompany() {
         return company;
     }

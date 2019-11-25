@@ -16,13 +16,13 @@ import java.util.List;
 @Singleton
 @Startup
 public class Seeder {
-    
+
     @Inject
     private UserService userService;
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @PostConstruct
     public void init() {
         if (userService.getGroup("USER") == null) {
@@ -30,7 +30,7 @@ public class Seeder {
             em.persist(groupUser);
             Group groupAdmin = new Group("ADMIN");
             em.persist(groupAdmin);
-            User userAdmin = new User("admin", "admin");
+            User userAdmin = new User("admin", "admin",true);
             List<Group> groupes = new ArrayList<>();
             groupes.add(groupUser);
             groupes.add(groupAdmin);
