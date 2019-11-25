@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="./layout.xhtml">
+    <ui:define name="content">
+
+
+        <h1>#{msg["app.title"]}</h1>
+
+
+        <h:form id="formJoueurs">
+            <p:growl id="messages" autoUpdate="true"/>
+            <p:commandButton icon="fa fa-plus"
+                             value="Ajouter un utilisateur"
+                             actionListener="#{gestionUsersView.create}"
+                             process="@this"
+                             oncomplete="PF('dialogAjouterJoueur').show()"
+                             update="dialogAjouterJoueur"/>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Oui"
+                                 type="button"
+                                 styleClass="ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+            </p:confirmDialog>
+
+
+
+        </h:form>
+
+        <p:dialog widgetVar="dialogAjouterJoueur"
+                  id='dialogAjouterJoueur'
+                  header="#{user.id == null ? 'Nouveau joueur' : 'Modification de ' += user}"
+                  modal="true"
+                  closeOnEscape="true">
+            <h:form id="formAjouterResourcetype">
+                <h:panelGrid columns="2" cellpadding="5">
+
+
+                    <p:outputLabel for="username" value="Mail:"/>
+                    <p:inputText id="username"
+                                 size='30'
+                                 value='#{user.userName}'
+                                 required="true"
+                                 requiredMessage="Le Mail est obligatoire"/>
+                    <p:outputLabel for="isactive" value="Type:"/>
+                    <p:inputSwitch  id="isactive"
+                                 value='#{user.active}'/>
+
+                    <p:spacer/>
+
+                </h:panelGrid>
+                <p:commandButton value="#{gestionUsersView.user.id == null ? 'Ajouter' : 'Enregistrer'}"
+                                 action="#{gestionUsersView.save()}"
+                                 oncomplete="if (!args.validationFailed) PF('dialogAjouterJoueur').hide()"
+                                 update="@form,formJoueurs:messages,tableJoueurs"/>
+            </h:form>
+        </p:dialog>
+
+
+        <p:dataTable    id="tableJoueurs"
+                        widgetVar="tableJoueurs"
+                        value="#{gestionUsersView.restyp}" var="rt" type="ordered">
+            <p:column headerText="Id">
+                <p:commandButton icon="fa fa-trash"
+                                 title="Supprimer"
+                                 rendered="#{gestionUsersView.user.active}"
+                                 actionListener="#{gestionUsersView.delete(rt)}"
+                                 update="tableJoueurs"
+                                 process="@this">
+                    <p:confirm header="Supprimer une resource"
+                               message="Supprimer #{rt} ?"
+                               icon="fa fa-question-circle"/>
+                </p:commandButton>
+                <p:commandButton icon="fa fa-edit"
+                                 title="Modifier"
+                                 actionListener="#{gestionUsersView.update(rt)}"
+                                 oncomplete="PF('dialogAjouterJoueur').show()"
+                                 update="dialogAjouterJoueur"/>
+            </p:column>
+
+
+
+            <p:column headerText="User Name">
+                <h:outputText value="#{rt.userName}" />
+            </p:column>
+
+            <p:column headerText="Actif">
+                <h:outputText value="#{rt.active}" />
+            </p:column>
+        </p:dataTable>
+
+    </ui:define>
+
+</ui:composition>
